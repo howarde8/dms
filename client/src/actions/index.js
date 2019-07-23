@@ -22,9 +22,8 @@ export const login = (username, password) => async dispatch => {
       username,
       password
     });
-    console.log("ready to push"); // TODO REMOVE
-    history.push("/");
     dispatch({ type: LOGIN_SUCCESS });
+    history.push("/");
   } catch (err) {
     dispatch({
       type: LOGIN_FAILURE,
@@ -38,6 +37,7 @@ export const logout = () => async dispatch => {
     dispatch({ type: LOGOUT_BEGIN });
     await axios.post("/api/logout");
     dispatch({ type: LOGOUT_SUCCESS });
+    history.push("/login");
   } catch (err) {
     dispatch({ type: LOGOUT_FAILURE });
   }

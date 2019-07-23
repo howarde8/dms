@@ -1,9 +1,16 @@
 import React, { Component } from "react";
+import { Button } from "antd";
 
 class Header extends Component {
   render() {
     return (
-      <div>Header</div>
+      <div>
+        <div>Header</div>
+        <div>
+          <p>User: {this.props.auth.user}</p>
+          <Button onClick={this.props.onLogoutClick}>Logout</Button>
+        </div>
+      </div>
     );
   }
 }

@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { Spin } from "antd";
 import Header from "./Header";
+import { fetchUser, logout } from "../actions";
 
 const User = () => {
   return <div>User</div>;
@@ -19,17 +22,45 @@ const Home = () => {
 };
 
 class Main extends Component {
+  onLogoutClick = () => {
+    this.props.logout();
+  }
+
+  componentDidMount() {
+    this.props.fetchUser();
+  }
+
   render() {
-    return (
-      <div>
-        <Header />
-        <Route exact path="/" component={Home} />
-        <Route path="/user" component={User} />
-        <Route path="/product" component={Product} />
-        <Route path="/order" component={Order} />
-      </div>
-    );
+    switch (this.props.auth.user) {
+      case undefined:
+      case null:
+        return <Spin />;
+      case false:
+        return <Redirect to="/login" />;
+      default:
+        return (
+          <div>
+            <Header auth={this.props.auth} onLogoutClick={this.onLogoutClick} />
+            <Route exact path="/" component={Home} />
+            <Route path="/user" component={User} />
+            <Route path="/product" component={Product} />
+            <Route path="/order" component={Order} />
+          </div>
+        );
+    }
   }
 }
 
-export default Main;
+function mapStateToProps({ auth }) {
+  return { auth };
+}
+
+const mapDispatchToProps = {
+  fetchUser,
+  logout
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Main);
