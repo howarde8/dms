@@ -13,7 +13,7 @@ passport.deserializeUser((user, done) => {
 
 passport.use(
   new LocalStrategy((username, password, done) => {
-    db.query(`SELECT password FROM user WHERE username = '${username}'`)
+    db.query(`SELECT password, level FROM user WHERE username = '${username}'`)
       .then(result => {
         // Compare plaintext password to hashed password
         if (result.length === 0) {
@@ -28,7 +28,7 @@ passport.use(
             }
             if (res) {
               // Password correct
-              done(null, username);
+              done(null, { username: username, level: result[0].level });
             } else {
               // Password incorrect
               done(null, false);
