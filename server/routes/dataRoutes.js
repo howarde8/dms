@@ -7,9 +7,11 @@ const requireRegular = requireAuthorize.regular;
 module.exports = app => {
   app.get("/api/users", requireAdmin, async (req, res) => {
     try {
-      const query = `SELECT username, name, level FROM user`;
-      const result = await db.query(query);
+      const query =
+        `SELECT username, name, level FROM user ` +
+        `WHERE username != '${req.user.username}'`; // Prevent from viewing admin itself
       console.log(`[DB] ${query}`);
+      const result = await db.query(query);
       res.send(result);
     } catch (err) {
       console.log("DB query error: " + err);
