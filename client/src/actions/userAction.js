@@ -4,7 +4,11 @@ import {
   ADD_USER_SUCCESS,
   ADD_USER_FAILURE,
   DELETE_USER_SUCCESS,
-  DELETE_USER_FAILURE
+  DELETE_USER_FAILURE,
+  OPEN_EDIT_FORM,
+  CLOSE_EDIT_FORM,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE
 } from "./types";
 
 export const getAllUsers = () => async dispatch => {
@@ -33,5 +37,28 @@ export const deleteUser = (username, tableIdx) => async dispatch => {
     dispatch({ type: DELETE_USER_SUCCESS, payload: { tableIdx } });
   } catch (err) {
     dispatch({ type: DELETE_USER_FAILURE });
+  }
+};
+
+export const openEditForm = editingUser => dispatch => {
+  dispatch({ type: OPEN_EDIT_FORM, payload: editingUser });
+};
+
+export const closeEditForm = () => dispatch => {
+  dispatch({ type: CLOSE_EDIT_FORM });
+};
+
+export const updateUser = ({
+  index,
+  username,
+  name,
+  level
+}) => async dispatch => {
+  try {
+    await axios.put(`/api/user/info/${username}`, { name, level });
+    const res = await axios.get(`/api/user/${username}`);
+    dispatch({ type: UPDATE_USER_SUCCESS, payload: { user: res.data, tableIdx: index } });
+  } catch (err) {
+    dispatch({ type: UPDATE_USER_FAILURE });
   }
 };

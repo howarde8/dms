@@ -1,24 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Button, Form, Input, Icon, Spin, Table, Popconfirm } from "antd";
-import { getAllUsers, addUser, deleteUser } from "../../actions";
+import { Button, Spin, Table, Popconfirm } from "antd";
+import AddUserForm from "./AddUserForm";
+import EditUserModalForm from "./EditUserModalForm";
+import { getAllUsers, addUser, deleteUser, openEditForm } from "../../actions";
 
 class User extends Component {
   componentDidMount() {
     this.props.getAllUsers();
   }
 
-  onAddUser = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        this.props.addUser({
-          username: values.username,
-          password: values.password,
-          name: values.name
-        });
-      }
-    });
+  onEditClick = (record, index) => {
+    this.props.openEditForm({ index, ...record });
   };
 
   onDeleteUser = (key, index) => {
@@ -43,12 +36,17 @@ class User extends Component {
             title: "Edit",
             key: "edit",
             render: (text, record, index) => (
-              <Popconfirm
-                title={`Are you sure to delete ${record.name}?`}
-                onConfirm={() => this.onDeleteUser(record.key, index)}
-              >
-                <a href="javascript:;">Delete</a>
-              </Popconfirm>
+              <div>
+                <Button onClick={() => this.onEditClick(record, index)}>
+                  Edit
+                </Button>
+                <Popconfirm
+                  title={`Are you sure to delete ${record.name}?`}
+                  onConfirm={() => this.onDeleteUser(record.key, index)}
+                >
+                  <Button>Delete</Button>
+                </Popconfirm>
+              </div>
             )
           }
         ]}
@@ -58,58 +56,14 @@ class User extends Component {
   };
 
   render() {
-    const { getFieldDecorator } = this.props.form;
     return (
       <div>
         <div>User</div>
         <div>
-          <Form onSubmit={this.onAddUser}>
-            <Form.Item>
-              {getFieldDecorator("username", {
-                rules: [{ required: true, message: "Please input username" }]
-              })(
-                <Input
-                  prefix={
-                    <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  placeholder="Username"
-                />
-              )}
-            </Form.Item>
-            <Form.Item>
-              {getFieldDecorator("password", {
-                rules: [{ required: true, message: "Please input password" }]
-              })(
-                <Input
-                  prefix={
-                    <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  type="password"
-                  placeholder="Password"
-                />
-              )}
-            </Form.Item>
-            <Form.Item>
-              {getFieldDecorator("name", {
-                rules: [{ required: true, message: "Please input name" }]
-              })(
-                <Input
-                  prefix={
-                    <Icon type="idcard" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  type="name"
-                  placeholder="Name"
-                />
-              )}
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Add user
-              </Button>
-            </Form.Item>
-          </Form>
+          <AddUserForm />
         </div>
         <div>{this.renderTable()}</div>
+        <EditUserModalForm />
       </div>
     );
   }
@@ -122,10 +76,11 @@ function mapStateToProps({ user }) {
 const mapDispatchToProps = {
   getAllUsers,
   addUser,
-  deleteUser
+  deleteUser,
+  openEditForm
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Form.create()(User));
+)(User);
