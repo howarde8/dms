@@ -3,11 +3,8 @@ import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Spin } from "antd";
 import Header from "./Header";
+import User from "./admin/User"
 import { fetchUser, logout } from "../actions";
-
-const User = () => {
-  return <div>User</div>;
-};
 
 const Product = () => {
   return <div>Product</div>;
