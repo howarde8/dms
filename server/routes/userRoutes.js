@@ -172,29 +172,20 @@ module.exports = app => {
     try {
       // Get user info from db first
       const userResult = await db.query(
-        "SELECT name, level FROM user WHERE username = ?",
+        "SELECT name FROM user WHERE username = ?",
         req.user.username
       );
 
       // Update info
       await db.query(
-        "UPDATE user SET name = ?, level = ? WHERE username = ?",
+        "UPDATE user SET name = ? WHERE username = ?",
         req.body.name ? req.body.name : userResult[0].name,
-        req.body.level ? req.body.level : userResult[0].level,
         req.user.username
       );
       res.sendStatus(200);
     } catch (err) {
-      if (
-        err.code === "ER_NO_REFERENCED_ROW" ||
-        err.code === "ER_NO_REFERENCED_ROW_2"
-      ) {
-        res.status(400).send({ error: "Level hasn't been defined" });
-        return;
-      } else {
-        res.sendStatus(500);
-        return;
-      }
+      res.sendStatus(500);
+      return;
     }
   });
 };
