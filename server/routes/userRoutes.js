@@ -7,10 +7,6 @@ const logger = require("../services/logger");
 
 module.exports = app => {
   app.get("/api/users", requireAdmin, async (req, res) => {
-    logger.info(
-      `[UsrRt] GET /api/users, from ${req.user.username} (${req.user.level})`
-    );
-
     // Prevent from viewing admin itself, by adding username != ?
     try {
       const result = await db.query(
@@ -24,11 +20,6 @@ module.exports = app => {
   });
 
   app.get("/api/user/:username", requireAdmin, async (req, res) => {
-    logger.info(
-      `[UsrRt] GET /api/users/${req.params.username}, ` +
-        `from ${req.user.username} (${req.user.level})`
-    );
-
     try {
       const result = await db.query(
         "SELECT username, name, level FROM user WHERE username = ?",
@@ -41,10 +32,6 @@ module.exports = app => {
   });
 
   app.get("/api/user", requireRegular, async (req, res) => {
-    logger.info(
-      `[UsrRt] GET /api/user from ${req.user.username} (${req.user.level})`
-    );
-
     try {
       const result = await db.query(
         "SELECT username, name, level FROM user WHERE username = ?",
@@ -57,10 +44,6 @@ module.exports = app => {
   });
 
   app.post("/api/user", requireAdmin, async (req, res) => {
-    logger.info(
-      `[UsrRt] POST /api/user from ${req.user.username} (${req.user.level})`
-    );
-
     if (!req.body.username || !req.body.password || !req.body.name) {
       res.status(400).send({ error: "Missing username, password or name" });
       return;
@@ -94,11 +77,6 @@ module.exports = app => {
   });
 
   app.delete("/api/user/:username", requireAdmin, async (req, res) => {
-    logger.info(
-      `[UsrRt] POST /api/user from ${req.user.username} (${req.user.level}) ` +
-        `with body: ${JSON.stringify(req.body)}`
-    );
-
     try {
       // Check if user exists
       const userResult = await db.query(
@@ -121,11 +99,6 @@ module.exports = app => {
   });
 
   app.put("/api/user/password/:username", requireAdmin, async (req, res) => {
-    logger.info(
-      `[UsrRt] PUT /api/user/password/${req.params.username} ` +
-        `from ${req.user.username} (${req.user.level})`
-    );
-
     if (!req.body.password) {
       res.status(400).send({ error: "Missing password" });
       return;
@@ -146,12 +119,6 @@ module.exports = app => {
   });
 
   app.put("/api/user/info/:username", requireAdmin, async (req, res) => {
-    logger.info(
-      `[UsrRt] PUT /api/user/info/${req.params.username} ` +
-        `from ${req.user.username} (${req.user.level}) ` +
-        `with body: ${JSON.stringify(req.body)}`
-    );
-
     try {
       // Get user info from db first
       const userResult = await db.query(
@@ -182,11 +149,6 @@ module.exports = app => {
   });
 
   app.put("/api/user/password", requireRegular, async (req, res) => {
-    logger.info(
-      `[UsrRt] PUT /api/user/password ` +
-        `from ${req.user.username} (${req.user.level})`
-    );
-
     if (!req.body.password) {
       res.status(400).send({ error: "Missing password" });
       return;
@@ -207,12 +169,6 @@ module.exports = app => {
   });
 
   app.put("/api/user/info", requireRegular, async (req, res) => {
-    logger.info(
-      `[UsrRt] PUT /api/user/info ` +
-        `from ${req.user.username} (${req.user.level}) ` +
-        `with body: ${JSON.stringify(req.body)}`
-    );
-
     try {
       // Get user info from db first
       const userResult = await db.query(
