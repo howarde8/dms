@@ -1,6 +1,6 @@
 const mysql = require("mysql");
 const moment = require("moment");
-
+const logger = require("./logger");
 const keys = require("../config/keys");
 
 class Database {
@@ -20,10 +20,13 @@ class Database {
     });
   }
 
-  query(sql, args) {
+  query(sql, ...args) {
     return new Promise((resolve, reject) => {
-      this.connection.query(sql, args, (err, rows) => {
+      const formatSql = mysql.format(sql, args);
+      logger.debug(`[DB] ${formatSql}`);
+      this.connection.query(formatSql, (err, rows) => {
         if (err) {
+          logger.error(`[DB] ${err}`);
           reject(err);
         } else {
           resolve(rows);
@@ -55,16 +58,16 @@ const db = new Database({
 
 db.connect()
   .then(threadId => {
-    console.log("Mysql is connected with id " + threadId);
+    logger.info(`[DB] Mysql is connected with id ${threadId}`);
 
     // Set MySQL timezone by finding UTC Offset
     let tzOffset = moment().utcOffset() / 60;
     tzOffset = tzOffset >= 0 ? "+" + tzOffset : tzOffset.toString();
     return db.query(`SET time_zone = '${tzOffset}:00'`);
   })
-  .then(() => console.log("Mysql timezone set"))
+  .then(() => logger.info("[DB] Mysql timezone set"))
   .catch(err => {
-    console.log("Error when connecting mysql", err);
+    logger.error(`[DB] Connecting mysql: ${err}`);
   });
 
 // TODO: moment(rows[0].timestamp).format("YYYY/MM/DD HH:mm:ss")

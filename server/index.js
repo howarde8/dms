@@ -18,7 +18,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require("./routes/authRoutes")(app);
-require("./routes/dataRoutes")(app);
+require("./routes/userRoutes")(app);
 
 http.listen(5000, () => {
   logger.info("HTTP server is listening on port 5000");
