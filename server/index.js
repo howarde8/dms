@@ -18,10 +18,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use((req, res, next) => {
   // Log all requests
-  logger.info(
-    `[Req] ${req.method} ${req.url} ` +
-      `by ${req.user.username}(${req.user.level})`
-  );
+  if (req.user) {
+    logger.info(
+      `[Req] ${req.method} ${req.url} ` +
+        `by ${req.user.username}(${req.user.level})`
+    );
+  }
   next();
 });
 
