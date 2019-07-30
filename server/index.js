@@ -27,6 +27,7 @@ app.use((req, res, next) => {
 
 require("./routes/authRoutes")(app);
 require("./routes/userRoutes")(app);
+require("./routes/levelRoutes")(app);
 
 http.listen(5000, () => {
   logger.info("HTTP server is listening on port 5000");
