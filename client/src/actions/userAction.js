@@ -5,8 +5,8 @@ import {
   ADD_USER_FAILURE,
   DELETE_USER_SUCCESS,
   DELETE_USER_FAILURE,
-  OPEN_EDIT_FORM,
-  CLOSE_EDIT_FORM,
+  OPEN_USER_EDIT_FORM,
+  CLOSE_USER_EDIT_FORM,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE
 } from "./types";
@@ -41,11 +41,11 @@ export const deleteUser = (username, tableIdx) => async dispatch => {
 };
 
 export const openEditForm = editingUser => dispatch => {
-  dispatch({ type: OPEN_EDIT_FORM, payload: editingUser });
+  dispatch({ type: OPEN_USER_EDIT_FORM, payload: editingUser });
 };
 
 export const closeEditForm = () => dispatch => {
-  dispatch({ type: CLOSE_EDIT_FORM });
+  dispatch({ type: CLOSE_USER_EDIT_FORM });
 };
 
 export const updateUser = ({

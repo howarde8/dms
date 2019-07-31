@@ -4,8 +4,8 @@ import {
   ADD_USER_FAILURE,
   DELETE_USER_SUCCESS,
   DELETE_USER_FAILURE,
-  OPEN_EDIT_FORM,
-  CLOSE_EDIT_FORM,
+  OPEN_USER_EDIT_FORM,
+  CLOSE_USER_EDIT_FORM,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE
 } from "../actions/types";
@@ -41,13 +41,13 @@ export default function(state = initialState, action) {
       return {
         ...state
       };
-    case OPEN_EDIT_FORM:
+    case OPEN_USER_EDIT_FORM:
       return {
         ...state,
         isEditing: true,
         editingUser: action.payload
       };
-    case CLOSE_EDIT_FORM:
+    case CLOSE_USER_EDIT_FORM:
       return {
         ...state,
         isEditing: false
