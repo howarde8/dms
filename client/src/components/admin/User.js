@@ -29,8 +29,8 @@ class User extends Component {
     return (
       <Table
         columns={[
-          { title: "Name", dataIndex: "name", key: "name" },
           { title: "Username", dataIndex: "username", key: "username" },
+          { title: "Name", dataIndex: "name", key: "name" },
           { title: "Level", dataIndex: "level", key: "level" },
           {
             title: "Edit",
