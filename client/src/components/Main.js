@@ -3,7 +3,8 @@ import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Spin } from "antd";
 import Header from "./Header";
-import User from "./admin/User"
+import User from "./admin/User";
+import Level from "./admin/Level";
 import { fetchUser, logout } from "../actions";
 
 const Product = () => {
@@ -21,7 +22,7 @@ const Home = () => {
 class Main extends Component {
   onLogoutClick = () => {
     this.props.logout();
-  }
+  };
 
   componentDidMount() {
     this.props.fetchUser();
@@ -40,6 +41,7 @@ class Main extends Component {
             <Header auth={this.props.auth} onLogoutClick={this.onLogoutClick} />
             <Route exact path="/" component={Home} />
             <Route path="/user" component={User} />
+            <Route path="/level" component={Level} />
             <Route path="/product" component={Product} />
             <Route path="/order" component={Order} />
           </div>

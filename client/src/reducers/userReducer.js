@@ -20,7 +20,7 @@ export default function(state = initialState, action) {
     case GET_ALL_USERS:
       return { ...state, users: action.payload };
     case ADD_USER_SUCCESS:
-      message.success("Add user Successful");
+      message.success("Add user successful");
       return {
         ...state,
         users: [...state.users, action.payload]
