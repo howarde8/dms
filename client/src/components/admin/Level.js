@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Button, Table, Spin, Popconfirm } from "antd";
+import { Button, Table, Spin, Popconfirm, Tabs } from "antd";
 import { getAllLevels, deleteLevel } from "../../actions";
-import AddLevelFrom from "./AddLevelForm";
+import AddLevelForm from "./AddLevelForm";
 
 class Level extends Component {
   componentDidMount() {
@@ -56,9 +56,14 @@ class Level extends Component {
   render() {
     return (
       <div>
-        <div>Level</div>
-        <AddLevelFrom />
-        <div>{this.renderTable()}</div>
+        <Tabs defaultActiveKey="1">
+          <Tabs.TabPane tab="Levels" key="1">
+            {this.renderTable()}
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="Add Level" key="2">
+            <AddLevelForm />
+          </Tabs.TabPane>
+        </Tabs>
       </div>
     );
   }

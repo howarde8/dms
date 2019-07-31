@@ -1,9 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Button, Form, Input, Icon } from "antd";
-import { addUser } from "../../actions";
+import { Button, Form, Input, Icon, Select, Spin } from "antd";
+import { addUser, getAllLevels } from "../../actions";
 
 class AddUserFrom extends Component {
+  componentDidMount() {
+    this.props.getAllLevels();
+  }
+
   onAddUser = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -11,7 +15,8 @@ class AddUserFrom extends Component {
         this.props.addUser({
           username: values.username,
           password: values.password,
-          name: values.name
+          name: values.name,
+          level: values.level
         });
       }
     });
@@ -19,8 +24,11 @@ class AddUserFrom extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    if (!this.props.level.levels) {
+      return <Spin />;
+    }
     return (
-      <Form onSubmit={this.onAddUser}>
+      <Form onSubmit={this.onAddUser} style={{ maxWidth: "300px" }}>
         <Form.Item>
           {getFieldDecorator("username", {
             rules: [{ required: true, message: "Please input username" }]
@@ -56,6 +64,17 @@ class AddUserFrom extends Component {
           )}
         </Form.Item>
         <Form.Item>
+          {getFieldDecorator("level")(
+            <Select placeholder="Please select a level">
+              {this.props.level.levels.map(level => (
+                <Select.Option key={level.name} value={level.name}>
+                  {level.name}
+                </Select.Option>
+              ))}
+            </Select>
+          )}
+        </Form.Item>
+        <Form.Item>
           <Button type="primary" htmlType="submit">
             Add user
           </Button>
@@ -65,11 +84,16 @@ class AddUserFrom extends Component {
   }
 }
 
+function mapStateToProps({ level }) {
+  return { level };
+}
+
 const mapDispatchToProps = {
-  addUser
+  addUser,
+  getAllLevels
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Form.create()(AddUserFrom));

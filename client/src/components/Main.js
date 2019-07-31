@@ -39,11 +39,13 @@ class Main extends Component {
         return (
           <div>
             <Header auth={this.props.auth} onLogoutClick={this.onLogoutClick} />
-            <Route exact path="/" component={Home} />
-            <Route path="/user" component={User} />
-            <Route path="/level" component={Level} />
-            <Route path="/product" component={Product} />
-            <Route path="/order" component={Order} />
+            <div style={{ margin: "20px" }}>
+              <Route exact path="/" component={Home} />
+              <Route path="/user" component={User} />
+              <Route path="/level" component={Level} />
+              <Route path="/product" component={Product} />
+              <Route path="/order" component={Order} />
+            </div>
           </div>
         );
     }

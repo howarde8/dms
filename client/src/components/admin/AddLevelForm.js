@@ -18,7 +18,7 @@ class AddLevelFrom extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form onSubmit={this.onAddLevel}>
+      <Form onSubmit={this.onAddLevel} style={{ maxWidth: "300px" }}>
         <Form.Item>
           {getFieldDecorator("name", {
             rules: [{ required: true, message: "Please input name" }]

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Button, Spin, Table, Popconfirm } from "antd";
+import { Button, Spin, Table, Popconfirm, Tabs } from "antd";
 import AddUserForm from "./AddUserForm";
 import EditUserModalForm from "./EditUserModalForm";
 import { getAllUsers, addUser, deleteUser, openEditForm } from "../../actions";
@@ -58,11 +58,14 @@ class User extends Component {
   render() {
     return (
       <div>
-        <div>User</div>
-        <div>
-          <AddUserForm />
-        </div>
-        <div>{this.renderTable()}</div>
+        <Tabs defaultActiveKey="1">
+          <Tabs.TabPane tab="Users" key="1">
+            {this.renderTable()}
+          </Tabs.TabPane>
+          <Tabs.TabPane tab="Add User" key="2">
+            <AddUserForm />
+          </Tabs.TabPane>
+        </Tabs>
         <EditUserModalForm />
       </div>
     );
