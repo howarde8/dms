@@ -1,14 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Button, Form, Input, Icon, Modal } from "antd";
-import { closeEditForm, updateUser } from "../../actions";
+import { Form, Input, Modal, Select } from "antd";
+import { closeEditForm, updateUser, getAllLevels } from "../../actions";
 
 class AddUserFrom extends Component {
+  componentDidMount() {
+    this.props.getAllLevels();
+  }
+
   onEditSave = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.updateUser({...values, index: this.props.user.editingUser.index});
+        this.props.updateUser({
+          ...values,
+          index: this.props.user.editingUser.index
+        });
       }
     });
     this.props.closeEditForm();
@@ -23,8 +30,14 @@ class AddUserFrom extends Component {
       // Prevent initialValue only shows 1 time
       this.props.form.resetFields();
     }
+    if (!this.props.level.levels) {
+      return <div />;
+    }
+
     const { getFieldDecorator } = this.props.form;
-    const {index, username, name, level} = this.props.user.editingUser ? this.props.user.editingUser : {};
+    const { index, username, name, level } = this.props.user.editingUser
+      ? this.props.user.editingUser
+      : {};
     return (
       <Modal
         visible={this.props.user.isEditing}
@@ -48,19 +61,31 @@ class AddUserFrom extends Component {
               initialValue: name
             })(<Input type="name" />)}
           </Form.Item>
+          <Form.Item label="Level">
+            {getFieldDecorator("level", { initialValue: level })(
+              <Select placeholder="Please select a level">
+                {this.props.level.levels.map(level => (
+                  <Select.Option key={level.name} value={level.name}>
+                    {level.name}
+                  </Select.Option>
+                ))}
+              </Select>
+            )}
+          </Form.Item>
         </Form>
       </Modal>
     );
   }
 }
 
-function mapStateToProps({ user }) {
-  return { user };
+function mapStateToProps({ user, level }) {
+  return { user, level };
 }
 
 const mapDispatchToProps = {
   closeEditForm,
-  updateUser
+  updateUser,
+  getAllLevels
 };
 
 export default connect(
