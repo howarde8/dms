@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Form, Input, Modal, Select } from "antd";
-import { closeEditForm, updateUser, getAllLevels } from "../../actions";
+import { closeEditForm, updateUser } from "../../actions/userAction";
+import { getAllLevels } from "../..actions/levelAction";
 
 class AddUserFrom extends Component {
   componentDidMount() {

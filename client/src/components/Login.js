@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import { Form, Icon, Input, Button, Spin, Typography, Row, Col } from "antd";
 import { connect } from "react-redux";
-import { fetchUser, login } from "../actions";
+import { fetchUser, login } from "../actions/authAction";
 
 class Login extends Component {
   handleSubmit = e => {

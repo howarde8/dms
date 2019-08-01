@@ -14,8 +14,8 @@ import { message } from "antd";
 const initialState = {
   users: [],
   isEditing: false,
-  editingUser: undefined,
-  editingIndex: undefined
+  editingUser: {},
+  editingIndex: 0
 };
 
 export default function(state = initialState, action) {

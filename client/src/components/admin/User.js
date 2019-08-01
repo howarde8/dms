@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Button, Spin, Table, Popconfirm, Tabs } from "antd";
 import AddUserForm from "./AddUserForm";
 import EditUserModalForm from "./EditUserModalForm";
-import { getAllUsers, addUser, deleteUser, openEditForm } from "../../actions";
+import { getAllUsers, addUser, deleteUser, openEditForm } from "../../actions/userAction";
 
 class User extends Component {
   componentDidMount() {

@@ -5,7 +5,7 @@ import { Spin } from "antd";
 import Header from "./Header";
 import User from "./admin/User";
 import Level from "./admin/Level";
-import { fetchUser, logout } from "../actions";
+import { fetchUser, logout } from "../actions/authAction";
 
 const Product = () => {
   return <div>Product</div>;

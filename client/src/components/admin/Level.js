@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Table, Spin, Popconfirm, Tabs } from "antd";
-import { getAllLevels, deleteLevel } from "../../actions";
+import { getAllLevels, deleteLevel } from "../../actions/levelAction";
 import AddLevelForm from "./AddLevelForm";
 
 class Level extends Component {
@@ -10,7 +10,7 @@ class Level extends Component {
   }
 
   onEditClick = (record, index) => {
-    // this.props.openEditForm({ index, ...record });
+    // this.props.openEditForm(record, index);
   };
 
   onDeleteLevel = (key, index) => {

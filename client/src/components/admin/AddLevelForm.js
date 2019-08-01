@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Form, Input } from "antd";
-import { addLevel } from "../../actions";
+import { addLevel } from "../../actions/levelAction";
 
 class AddLevelFrom extends Component {
   onAddLevel = e => {

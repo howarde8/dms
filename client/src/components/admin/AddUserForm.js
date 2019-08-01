@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Form, Input, Icon, Select, Spin } from "antd";
-import { addUser, getAllLevels } from "../../actions";
+import { addUser } from "../../actions/userAction";
+import { getAllLevels } from "../../actions/levelAction";
 
 class AddUserFrom extends Component {
   componentDidMount() {
