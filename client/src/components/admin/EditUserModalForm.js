@@ -4,7 +4,7 @@ import { Form, Input, Modal, Select } from "antd";
 import { closeEditForm, updateUser } from "../../actions/userAction";
 import { getAllLevels } from "../../actions/levelAction";
 
-class AddUserFrom extends Component {
+class EdituserModalForm extends Component {
   componentDidMount() {
     this.props.getAllLevels();
   }
@@ -89,4 +89,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Form.create()(AddUserFrom));
+)(Form.create()(EdituserModalForm));

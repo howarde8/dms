@@ -1,22 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Form, Input, Modal, Select } from "antd";
-import { closeEditForm, updateUser } from "../../actions/userAction";
-import { getAllLevels } from "../..actions/levelAction";
+import { Form, Input, Modal } from "antd";
+import { closeEditForm, updateLevel } from "../../actions/levelAction";
 
-class AddUserFrom extends Component {
-  componentDidMount() {
-    this.props.getAllLevels();
-  }
-
+class EditLevelModalForm extends Component {
   onEditSave = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.updateUser({
-          ...values,
-          index: this.props.user.editingUser.index
-        });
+        this.props.updateLevel(this.props.level.editingLevel.name, values.name);
       }
     });
     this.props.closeEditForm();
@@ -27,22 +19,19 @@ class AddUserFrom extends Component {
   };
 
   render() {
-    if (!this.props.user.isEditing) {
+    if (!this.props.level.isEditing) {
       // Prevent initialValue only shows 1 time
       this.props.form.resetFields();
     }
-    if (!this.props.level.levels) {
-      return <div />;
-    }
 
     const { getFieldDecorator } = this.props.form;
-    const { index, username, name, level } = this.props.user.editingUser
-      ? this.props.user.editingUser
+    const { name } = this.props.level.editingLevel
+      ? this.props.level.editingLevel
       : {};
     return (
       <Modal
-        visible={this.props.user.isEditing}
-        title="Edit user"
+        visible={this.props.level.isEditing}
+        title="Edit level"
         onOk={this.onEditSave}
         onCancel={this.onEditCancel}
       >
@@ -51,27 +40,11 @@ class AddUserFrom extends Component {
           wrapperCol={{ span: 12 }}
           onSubmit={this.onEditSave}
         >
-          <Form.Item label="Username">
-            {getFieldDecorator("username", {
-              initialValue: username
-            })(<Input type="username" disabled />)}
-          </Form.Item>
           <Form.Item label="Name">
             {getFieldDecorator("name", {
               rules: [{ required: true, message: "Please input name" }],
               initialValue: name
             })(<Input type="name" />)}
-          </Form.Item>
-          <Form.Item label="Level">
-            {getFieldDecorator("level", { initialValue: level })(
-              <Select placeholder="Please select a level">
-                {this.props.level.levels.map(level => (
-                  <Select.Option key={level.name} value={level.name}>
-                    {level.name}
-                  </Select.Option>
-                ))}
-              </Select>
-            )}
           </Form.Item>
         </Form>
       </Modal>
@@ -79,17 +52,14 @@ class AddUserFrom extends Component {
   }
 }
 
-function mapStateToProps({ user, level }) {
-  return { user, level };
-}
+const mapStateToProps = ({ level }) => ({ level });
 
 const mapDispatchToProps = {
   closeEditForm,
-  updateUser,
-  getAllLevels
+  updateLevel
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Form.create()(AddUserFrom));
+)(Form.create()(EditLevelModalForm));

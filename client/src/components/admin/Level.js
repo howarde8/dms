@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Table, Spin, Popconfirm, Tabs } from "antd";
-import { getAllLevels, deleteLevel } from "../../actions/levelAction";
+import {
+  getAllLevels,
+  deleteLevel,
+  openEditForm
+} from "../../actions/levelAction";
 import AddLevelForm from "./AddLevelForm";
+import EditLevelModalForm from "./EditLevelModalForm";
 
 class Level extends Component {
   componentDidMount() {
@@ -10,7 +15,7 @@ class Level extends Component {
   }
 
   onEditClick = (record, index) => {
-    // this.props.openEditForm(record, index);
+    this.props.openEditForm(record, index);
   };
 
   onDeleteLevel = (key, index) => {
@@ -64,6 +69,7 @@ class Level extends Component {
             <AddLevelForm />
           </Tabs.TabPane>
         </Tabs>
+        <EditLevelModalForm />
       </div>
     );
   }
@@ -75,7 +81,8 @@ function mapStateToProps({ level }) {
 
 const mapDispatchToProps = {
   getAllLevels,
-  deleteLevel
+  deleteLevel,
+  openEditForm
 };
 
 export default connect(

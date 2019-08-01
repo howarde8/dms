@@ -22,5 +22,7 @@ export const ADD_LEVEL_SUCCESS = "add_level_success";
 export const ADD_LEVEL_FAILURE = "add_level_failure";
 export const DELETE_LEVEL_SUCCESS = "delete_level_success";
 export const DELETE_LEVEL_FAILURE = "delete_level_failure";
+export const OPEN_LEVEL_EDIT_FORM = "open_level_edit_form";
+export const CLOSE_LEVEL_EDIT_FORM = "close_level_edit_form";
 export const UPDATE_LEVEL_SUCCESS = "update_level_success";
 export const UPDATE_LEVEL_FAILURE = "update_level_failure";
