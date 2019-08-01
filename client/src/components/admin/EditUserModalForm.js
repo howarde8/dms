@@ -13,8 +13,7 @@ class AddUserFrom extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         this.props.updateUser({
-          ...values,
-          index: this.props.user.editingUser.index
+          ...values
         });
       }
     });
@@ -78,9 +77,7 @@ class AddUserFrom extends Component {
   }
 }
 
-function mapStateToProps({ user, level }) {
-  return { user, level };
-}
+const mapStateToProps = ({ user, level }) => ({ user, level });
 
 const mapDispatchToProps = {
   closeEditForm,

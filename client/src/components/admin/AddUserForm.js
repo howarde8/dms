@@ -84,9 +84,8 @@ class AddUserFrom extends Component {
   }
 }
 
-function mapStateToProps({ level }) {
-  return { level };
-}
+// To fetch all level for user to choose
+const mapStateToProps = ({ level }) => ({ level });
 
 const mapDispatchToProps = {
   addUser,

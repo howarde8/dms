@@ -12,32 +12,35 @@ import {
 import { message } from "antd";
 
 const initialState = {
-  errMsg: null
+  users: [],
+  isEditing: false,
+  editingUser: undefined,
+  editingIndex: undefined
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_USERS:
-      return { ...state, users: action.payload };
+      return { ...state, users: action.users };
     case ADD_USER_SUCCESS:
       message.success("Add user successful");
       return {
         ...state,
-        users: [...state.users, action.payload]
+        users: [...state.users, action.user]
       };
     case ADD_USER_FAILURE:
-      message.error("Add user fail");
-      return { ...state };
+      message.error(action.error);
+      return state;
     case DELETE_USER_SUCCESS:
       return {
         ...state,
         users: [
-          ...state.users.slice(0, action.payload.tableIdx),
-          ...state.users.slice(action.payload.tableIdx + 1)
+          ...state.users.slice(0, action.tableIdx),
+          ...state.users.slice(action.tableIdx + 1)
         ]
       };
     case DELETE_USER_FAILURE:
-      message.error("Delete user fail");
+      message.error(action.error);
       return {
         ...state
       };
@@ -45,7 +48,8 @@ export default function(state = initialState, action) {
       return {
         ...state,
         isEditing: true,
-        editingUser: action.payload
+        editingUser: action.editingUser,
+        editingIndex: action.editingIndex
       };
     case CLOSE_USER_EDIT_FORM:
       return {
@@ -53,19 +57,18 @@ export default function(state = initialState, action) {
         isEditing: false
       };
     case UPDATE_USER_SUCCESS:
+      message.success("Add user successful");
       return {
         ...state,
         users: [
-          ...state.users.slice(0, action.payload.tableIdx),
-          action.payload.user,
-          ...state.users.slice(action.payload.tableIdx + 1)
+          ...state.users.slice(0, state.editingIndex),
+          action.user,
+          ...state.users.slice(state.editingIndex + 1)
         ]
       };
-
     case UPDATE_USER_FAILURE:
-      return {
-        ...state
-      };
+      message.error(action.error);
+      return state;
     default:
       return state;
   }

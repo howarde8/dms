@@ -11,7 +11,7 @@ class User extends Component {
   }
 
   onEditClick = (record, index) => {
-    this.props.openEditForm({ index, ...record });
+    this.props.openEditForm(record, index);
   };
 
   onDeleteUser = (key, index) => {
@@ -72,9 +72,7 @@ class User extends Component {
   }
 }
 
-function mapStateToProps({ user }) {
-  return { user };
-}
+const mapStateToProps = ({ user }) => ({ user });
 
 const mapDispatchToProps = {
   getAllUsers,
