@@ -23,13 +23,13 @@ export default function(state = initialState, action) {
     case GET_ALL_LEVELS:
       return { ...state, levels: action.payload };
     case ADD_LEVEL_SUCCESS:
-      message.success("Add level Successful");
+      message.success("Add level successful");
       return { ...state, levels: [...state.levels, action.payload] };
     case ADD_LEVEL_FAILURE:
-      message.error("Add level fail");
+      message.error(action.error);
       return state;
     case DELETE_LEVEL_SUCCESS:
-      message.success("Delete level Successful");
+      message.success("Delete level successful");
       return {
         ...state,
         levels: [
@@ -38,7 +38,7 @@ export default function(state = initialState, action) {
         ]
       };
     case DELETE_LEVEL_FAILURE:
-      message.error("Delete level fail");
+      message.error(action.error);
       return state;
     case OPEN_LEVEL_EDIT_FORM:
       return {

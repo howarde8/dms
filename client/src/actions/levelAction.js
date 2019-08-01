@@ -21,7 +21,7 @@ export const addLevel = ({ name }) => async dispatch => {
     await axios.post("/api/level", { name });
     dispatch({ type: ADD_LEVEL_SUCCESS, payload: { name } });
   } catch (err) {
-    dispatch({ type: ADD_LEVEL_FAILURE });
+    dispatch({ type: ADD_LEVEL_FAILURE, error: err.response.data.error });
   }
 };
 
@@ -30,7 +30,7 @@ export const deleteLevel = (name, tableIdx) => async dispatch => {
     await axios.delete(`/api/level/${name}`);
     dispatch({ type: DELETE_LEVEL_SUCCESS, payload: { tableIdx } });
   } catch (err) {
-    dispatch({ type: DELETE_LEVEL_FAILURE });
+    dispatch({ type: DELETE_LEVEL_FAILURE, error: err.response.data.error });
   }
 };
 
