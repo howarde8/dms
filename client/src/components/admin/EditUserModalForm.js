@@ -52,17 +52,19 @@ class EdituserModalForm extends Component {
         >
           <Form.Item label="Username">
             {getFieldDecorator("username", {
-              initialValue: username
+              initialValue: this.props.user.isEditing ? username : ""
             })(<Input type="username" disabled />)}
           </Form.Item>
           <Form.Item label="Name">
             {getFieldDecorator("name", {
               rules: [{ required: true, message: "Please input name" }],
-              initialValue: name
+              initialValue: this.props.user.isEditing ? name : ""
             })(<Input type="name" />)}
           </Form.Item>
           <Form.Item label="Level">
-            {getFieldDecorator("level", { initialValue: level })(
+            {getFieldDecorator("level", {
+              initialValue: this.props.user.isEditing ? level : undefined
+            })(
               <Select placeholder="Please select a level">
                 {this.props.level.levels.map(level => (
                   <Select.Option key={level.name} value={level.name}>

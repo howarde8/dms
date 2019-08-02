@@ -18,16 +18,18 @@ class AddLevelFrom extends Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form onSubmit={this.onAddLevel} style={{ maxWidth: "300px" }}>
+      <Form
+        layout="inline"
+        onSubmit={this.onAddLevel}
+        style={{ maxWidth: "300px" }}
+      >
         <Form.Item>
           {getFieldDecorator("name", {
             rules: [{ required: true, message: "Please input name" }]
           })(<Input type="name" placeholder="Name" />)}
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Add level
-          </Button>
+          <Button type="primary" shape="circle" icon="plus" htmlType="submit" />
         </Form.Item>
       </Form>
     );

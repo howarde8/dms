@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Button, Table, Spin, Popconfirm, Tabs } from "antd";
+import { Button, Table, Spin, Popconfirm } from "antd";
 import {
   getAllLevels,
   deleteLevel,
@@ -40,20 +40,24 @@ class Level extends Component {
             key: "edit",
             render: (text, record, index) => (
               <div>
-                <Button onClick={() => this.onEditClick(record, index)}>
-                  Edit
-                </Button>
+                <Button
+                  shape="circle"
+                  icon="edit"
+                  onClick={() => this.onEditClick(record, index)}
+                  style={{ marginRight: "5px" }}
+                />
                 <Popconfirm
                   title={`Are you sure to delete ${record.name}?`}
                   onConfirm={() => this.onDeleteLevel(record.key, index)}
                 >
-                  <Button>Delete</Button>
+                  <Button type="danger" shape="circle" icon="delete" />
                 </Popconfirm>
               </div>
             )
           }
         ]}
         dataSource={data}
+        style={{ maxWidth: "350px" }}
       />
     );
   };
@@ -61,14 +65,12 @@ class Level extends Component {
   render() {
     return (
       <div>
-        <Tabs defaultActiveKey="1">
-          <Tabs.TabPane tab="Levels" key="1">
-            {this.renderTable()}
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Add Level" key="2">
+        <div>
+          <div style={{ marginBottom: "10px" }}>
             <AddLevelForm />
-          </Tabs.TabPane>
-        </Tabs>
+          </div>
+          {this.renderTable()}
+        </div>
         <EditLevelModalForm />
       </div>
     );

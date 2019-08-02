@@ -57,7 +57,7 @@ export default function(state = initialState, action) {
         isEditing: false
       };
     case UPDATE_USER_SUCCESS:
-      message.success("Add user successful");
+      message.success("Edit user successful");
       return {
         ...state,
         users: [

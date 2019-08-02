@@ -53,7 +53,7 @@ export default function(state = initialState, action) {
         isEditing: false
       };
     case UPDATE_LEVEL_SUCCESS:
-      message.success("Add level successful");
+      message.success("Edit level successful");
       return {
         ...state,
         levels: [

@@ -43,7 +43,7 @@ class EditLevelModalForm extends Component {
           <Form.Item label="Name">
             {getFieldDecorator("name", {
               rules: [{ required: true, message: "Please input name" }],
-              initialValue: name
+              initialValue: this.props.level.isEditing ? name : ""
             })(<Input type="name" />)}
           </Form.Item>
         </Form>

@@ -1,14 +1,29 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Button, Spin, Table, Popconfirm, Tabs } from "antd";
+import { Button, Spin, Table, Popconfirm } from "antd";
 import AddUserForm from "./AddUserForm";
 import EditUserModalForm from "./EditUserModalForm";
-import { getAllUsers, addUser, deleteUser, openEditForm } from "../../actions/userAction";
+import {
+  getAllUsers,
+  addUser,
+  deleteUser,
+  openEditForm
+} from "../../actions/userAction";
 
 class User extends Component {
+  state = {
+    isAddingUser: false
+  };
+
   componentDidMount() {
     this.props.getAllUsers();
   }
+
+  onAddUserClick = () => {
+    this.setState(prevState => ({
+      isAddingUser: !prevState.isAddingUser
+    }));
+  };
 
   onEditClick = (record, index) => {
     this.props.openEditForm(record, index);
@@ -37,20 +52,24 @@ class User extends Component {
             key: "edit",
             render: (text, record, index) => (
               <div>
-                <Button onClick={() => this.onEditClick(record, index)}>
-                  Edit
-                </Button>
+                <Button
+                  shape="circle"
+                  icon="edit"
+                  onClick={() => this.onEditClick(record, index)}
+                  style={{ marginRight: "5px" }}
+                />
                 <Popconfirm
                   title={`Are you sure to delete ${record.name}?`}
                   onConfirm={() => this.onDeleteUser(record.key, index)}
                 >
-                  <Button>Delete</Button>
+                  <Button type="danger" shape="circle" icon="delete" />
                 </Popconfirm>
               </div>
             )
           }
         ]}
         dataSource={data}
+        style={{ maxWidth: "800px" }}
       />
     );
   };
@@ -58,14 +77,15 @@ class User extends Component {
   render() {
     return (
       <div>
-        <Tabs defaultActiveKey="1">
-          <Tabs.TabPane tab="Users" key="1">
-            {this.renderTable()}
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Add User" key="2">
-            <AddUserForm />
-          </Tabs.TabPane>
-        </Tabs>
+        <Button
+          type="primary"
+          shape="circle"
+          icon={this.state.isAddingUser ? "minus" : "plus"}
+          onClick={this.onAddUserClick}
+          style={{ marginBottom: "10px" }}
+        />
+        {this.state.isAddingUser ? <AddUserForm /> : <div />}
+        <div>{this.renderTable()}</div>
         <EditUserModalForm />
       </div>
     );
