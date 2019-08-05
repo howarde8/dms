@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const db = require("../services/database");
 const requireAuthorize = require("../middlewares/requireAuthorize");
 const requireAdmin = requireAuthorize.admin;
