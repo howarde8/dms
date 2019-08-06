@@ -1,0 +1,32 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t howarde8/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true howarde8/react-test npm test
+
+after_success:
+  - docker build -t howarde8/dms-server ./server
+  - docker build -t howarde8/dms-client ./client
+  - docker build -t howarde8/dms-nginx ./nginx
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push howarde8/dms-server
+  - docker push howarde8/dms-client
+  - docker push howarde8/dms-nginx
+
+deploy:
+  provider: elasticbeanstalk
+  region: ap-southeast-1
+  app: dms
+  env: Dms-env
+  bucket_name: elasticbeanstalk-ap-southeast-1-093003787802
+  bucket_path: dms
+  on:
+    branch: master
+  access_key_id:
+    secure: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
