@@ -1,5 +1,7 @@
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcryptjs");
+const db = require("./database");
 
 passport.serializeUser((user, done) => {
   done(null, user);
@@ -11,13 +13,32 @@ passport.deserializeUser((user, done) => {
 
 passport.use(
   new LocalStrategy((username, password, done) => {
-    // For test usage
-    if (username === "admin") {
-      done(null, username);
-    } else if (username === "distr") {
-      done(null, username);
-    } else {
-      done(null, false);
-    }
+    db.query(`SELECT password, level FROM user WHERE username = '${username}'`)
+      .then(result => {
+        // Compare plaintext password to hashed password
+        if (result.length === 0) {
+          // User not exists
+          console.log("User not exists");
+          done(null, false);
+        } else {
+          bcrypt.compare(password, result[0].password, (err, res) => {
+            if (err) {
+              console.log("Bcrypt compare error: " + err);
+              done(null, false);
+            }
+            if (res) {
+              // Password correct
+              done(null, { username: username, level: result[0].level });
+            } else {
+              // Password incorrect
+              done(null, false);
+            }
+          });
+        }
+      })
+      .catch(err => {
+        console.log("DB query error: " + err);
+        done(null, false);
+      });
   })
 );

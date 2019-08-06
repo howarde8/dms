@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import { Form, Icon, Input, Button, Spin } from "antd";
+import { Form, Icon, Input, Button, Spin, Typography, Row, Col } from "antd";
 import { connect } from "react-redux";
-import { fetchUser, login } from "../actions";
+import { fetchUser, login } from "../actions/authAction";
 
 class Login extends Component {
   handleSubmit = e => {
@@ -26,42 +26,64 @@ class Login extends Component {
         return <Spin />;
       case false:
         return (
-          <Form onSubmit={this.handleSubmit} style={{ maxWidth: "300px" }}>
-            <Form.Item>
-              {getFieldDecorator("username", {
-                rules: [{ required: true, message: "Please input username" }]
-              })(
-                <Input
-                  prefix={
-                    <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  placeholder="Username"
-                />
-              )}
-            </Form.Item>
-            <Form.Item>
-              {getFieldDecorator("password", {
-                rules: [{ required: true, message: "Please input password" }]
-              })(
-                <Input
-                  prefix={
-                    <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  type="password"
-                  placeholder="Password"
-                />
-              )}
-            </Form.Item>
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                style={{ width: "100%" }}
+          <Row>
+            <Col span={9} />
+            <Col span={6}>
+              <Form
+                onSubmit={this.handleSubmit}
+                style={{ maxWidth: "300px", marginTop: "100px" }}
               >
-                Log in
-              </Button>
-            </Form.Item>
-          </Form>
+                <Typography.Title level={3} style={{ textAlign: "center" }}>
+                  DMS
+                </Typography.Title>
+                <Form.Item>
+                  {getFieldDecorator("username", {
+                    rules: [
+                      { required: true, message: "Please input username" }
+                    ]
+                  })(
+                    <Input
+                      prefix={
+                        <Icon
+                          type="user"
+                          style={{ color: "rgba(0,0,0,.25)" }}
+                        />
+                      }
+                      placeholder="Username"
+                    />
+                  )}
+                </Form.Item>
+                <Form.Item>
+                  {getFieldDecorator("password", {
+                    rules: [
+                      { required: true, message: "Please input password" }
+                    ]
+                  })(
+                    <Input
+                      prefix={
+                        <Icon
+                          type="lock"
+                          style={{ color: "rgba(0,0,0,.25)" }}
+                        />
+                      }
+                      type="password"
+                      placeholder="Password"
+                    />
+                  )}
+                </Form.Item>
+                <Form.Item>
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    style={{ width: "100%" }}
+                  >
+                    Log in
+                  </Button>
+                </Form.Item>
+              </Form>
+            </Col>
+            <Col span={9} />
+          </Row>
         );
       default:
         return <Redirect to="/" />;
