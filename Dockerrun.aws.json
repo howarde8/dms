@@ -11,14 +11,14 @@
     {
       "name": "server",
       "image": "howarde8/dms-server",
-      "hostname": "client",
+      "hostname": "api",
       "essential": false,
       "memory": 128
-    }
+    },
     {
       "name": "nginx",
       "image": "howarde8/dms-nginx",
-      "hostname": "client",
+      "hostname": "nginx",
       "essential": true,
       "portMappings": [
         {

@@ -16,3 +16,17 @@ after_success:
   - docker push howarde8/dms-server
   - docker push howarde8/dms-client
   - docker push howarde8/dms-nginx
+
+deploy:
+  provider: elasticbeanstalk
+  region: ap-southeast-1
+  app: dms
+  env: Dms-env
+  bucket_name: elasticbeanstalk-ap-southeast-1-093003787802
+  bucket_path: dms
+  on:
+    branch: master
+  access_key_id:
+    secure: $AWS_ACCESS_KEY
+  secret_access_key:
+    secure: $AWS_SECRET_KEY
