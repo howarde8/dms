@@ -31,6 +31,53 @@ class Header extends Component {
     }
   };
 
+  renderMenu = () => {
+    switch (this.props.auth.user) {
+      case undefined:
+      case null:
+        return <Spin />;
+      case false:
+        return <div />;
+      default:
+        const menuProp = {
+          theme: "dark",
+          mode: "horizontal",
+          selectable: false,
+          style: { float: "left", lineHeight: "64px" }
+        };
+        return this.props.auth.user.level === "ADMIN" ? (
+          <Menu {...menuProp}>
+            <Menu.Item key="user">
+              <Link to="/user">User</Link>
+            </Menu.Item>
+            <Menu.Item key="level">
+              <Link to="/level">Level</Link>
+            </Menu.Item>
+            <Menu.Item key="product">
+              <Link to="/product">Product</Link>
+            </Menu.Item>
+            <Menu.Item key="order">
+              <Link to="/order">Order</Link>
+            </Menu.Item>
+          </Menu>
+        ) : (
+          <Menu
+            theme="dark"
+            mode="horizontal"
+            selectable={false}
+            style={{ float: "left", lineHeight: "64px" }}
+          >
+            <Menu.Item key="product">
+              <Link to="/product">Product</Link>
+            </Menu.Item>
+            <Menu.Item key="order">
+              <Link to="/order">Order</Link>
+            </Menu.Item>
+          </Menu>
+        );
+    }
+  };
+
   render() {
     return (
       <Layout.Header>
@@ -46,19 +93,7 @@ class Header extends Component {
             DMS
           </Typography>
         </Link>
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          selectable={false}
-          style={{ float: "left", lineHeight: "64px" }}
-        >
-          <Menu.Item key="user">
-            <Link to="/user">User</Link>
-          </Menu.Item>
-          <Menu.Item key="level">
-            <Link to="/level">Level</Link>
-          </Menu.Item>
-        </Menu>
+        {this.renderMenu()}
         <Typography
           style={{
             float: "right"

@@ -43,10 +43,17 @@ class Main extends Component {
             <div style={{ margin: "20px" }}>
               <Route exact path="/" component={Home} />
               <Route path="/profile" component={Profile} />
-              <Route path="/user" component={User} />
-              <Route path="/level" component={Level} />
-              <Route path="/product" component={Product} />
-              <Route path="/order" component={Order} />
+              {this.props.auth.user.level === "ADMIN" ? (
+                <div>
+                  <Route path="/user" component={User} />
+                  <Route path="/level" component={Level} />
+                </div>
+              ) : (
+                <div>
+                  <Route path="/product" component={Product} />
+                  <Route path="/order" component={Order} />
+                </div>
+              )}
             </div>
           </div>
         );
