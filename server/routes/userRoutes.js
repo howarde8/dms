@@ -10,7 +10,7 @@ module.exports = app => {
     // Prevent from viewing admin itself, by adding username != ?
     try {
       const result = await db.query(
-        "SELECT username, name, level FROM user WHERE username != ?",
+        "SELECT username, name, level, email FROM user WHERE username != ?",
         req.user.username
       );
       res.send(result);

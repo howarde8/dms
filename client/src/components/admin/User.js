@@ -47,6 +47,7 @@ class User extends Component {
           { title: "Username", dataIndex: "username", key: "username" },
           { title: "Name", dataIndex: "name", key: "name" },
           { title: "Level", dataIndex: "level", key: "level" },
+          { title: "Email", dataIndex: "email", key: "email" },
           {
             title: "Edit",
             key: "edit",

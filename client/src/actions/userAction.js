@@ -69,9 +69,9 @@ export const closeEditForm = () => dispatch => {
   dispatch({ type: CLOSE_USER_EDIT_FORM });
 };
 
-export const updateUser = ({ username, name, level }) => async dispatch => {
+export const updateUser = ({ username, name, level, email }) => async dispatch => {
   try {
-    await axios.put(`/api/user/info/${username}`, { name, level });
+    await axios.put(`/api/user/info/${username}`, { name, level, email });
     const res = await axios.get(`/api/user/${username}`);
     dispatch({
       type: UPDATE_USER_SUCCESS,
