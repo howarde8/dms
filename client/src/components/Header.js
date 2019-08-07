@@ -13,9 +13,11 @@ class Header extends Component {
       default:
         return (
           <div>
-            <Button ghost type="link" icon="user">
-              {this.props.auth.user.username}
-            </Button>
+            <Link to="/profile">
+              <Button ghost type="link" icon="user">
+                {this.props.auth.user.username}
+              </Button>
+            </Link>
             <Button
               ghost
               type="link"

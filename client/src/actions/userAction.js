@@ -1,6 +1,9 @@
 import axios from "axios";
 import {
+  GET_USER_ME,
   GET_ALL_USERS,
+  UPDATE_USER_ME_SUCCESS,
+  UPDATE_USER_ME_FAILURE,
   ADD_USER_SUCCESS,
   ADD_USER_FAILURE,
   DELETE_USER_SUCCESS,
@@ -10,6 +13,24 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE
 } from "./types";
+
+export const getUserMe = () => async dispatch => {
+  const res = await axios.get("/api/user");
+  dispatch({ type: GET_USER_ME, me: res.data });
+};
+
+export const updateUserMe = ({ name, email }) => async dispatch => {
+  try {
+    await axios.put(`/api/user/info`, { name, email });
+    const res = await axios.get(`/api/user`);
+    dispatch({
+      type: UPDATE_USER_SUCCESS,
+      me: res.data
+    });
+  } catch (err) {
+    dispatch({ type: UPDATE_USER_ME_FAILURE, error: err.response.data.error });
+  }
+};
 
 export const getAllUsers = () => async dispatch => {
   const res = await axios.get("/api/users");

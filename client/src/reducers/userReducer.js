@@ -1,4 +1,5 @@
 import {
+  GET_USER_ME,
   GET_ALL_USERS,
   ADD_USER_SUCCESS,
   ADD_USER_FAILURE,
@@ -7,11 +8,14 @@ import {
   OPEN_USER_EDIT_FORM,
   CLOSE_USER_EDIT_FORM,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILURE
+  UPDATE_USER_FAILURE,
+  UPDATE_USER_ME_SUCCESS,
+  UPDATE_USER_ME_FAILURE
 } from "../actions/types";
 import { message } from "antd";
 
 const initialState = {
+  me: {},
   users: [],
   isEditing: false,
   editingUser: {},
@@ -20,6 +24,14 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
+    case GET_USER_ME:
+      return { ...state, me: action.me };
+    case UPDATE_USER_ME_SUCCESS:
+      message.success("Update profile successful");
+      return { ...state, me: action.me };
+    case UPDATE_USER_ME_FAILURE:
+      message.error(action.error);
+      return state;
     case GET_ALL_USERS:
       return { ...state, users: action.users };
     case ADD_USER_SUCCESS:

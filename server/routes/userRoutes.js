@@ -34,7 +34,7 @@ module.exports = app => {
   app.get("/api/user", requireRegular, async (req, res) => {
     try {
       const result = await db.query(
-        "SELECT username, name, level, email FROM user WHERE username = ?",
+        "SELECT username, name, email FROM user WHERE username = ?",
         req.user.username
       );
       res.send(result[0]);
@@ -81,7 +81,7 @@ module.exports = app => {
     try {
       // Check if user exists
       const userResult = await db.query(
-        "SELECT name, level FROM user WHERE username = ?",
+        "SELECT * FROM user WHERE username = ?",
         req.params.username
       );
       if (userResult.length === 0) {

@@ -7,6 +7,10 @@ export const LOGOUT_SUCCESS = "logout_success";
 export const LOGOUT_FAILURE = "logout_failure";
 export const LOGOUT = "logout";
 
+export const GET_USER_ME = "get_user_me";
+export const UPDATE_USER_ME_SUCCESS = "update_user_me_success";
+export const UPDATE_USER_ME_FAILURE = "update_user_me_failure";
+
 export const GET_ALL_USERS = "get_all_users";
 export const ADD_USER_SUCCESS = "add_user_success";
 export const ADD_USER_FAILURE = "add_user_failure";
