@@ -22,7 +22,7 @@ module.exports = app => {
   app.get("/api/user/:username", requireAdmin, async (req, res) => {
     try {
       const result = await db.query(
-        "SELECT username, name, level FROM user WHERE username = ?",
+        "SELECT username, name, level, email FROM user WHERE username = ?",
         req.params.username
       );
       res.send(result[0]);
@@ -34,7 +34,7 @@ module.exports = app => {
   app.get("/api/user", requireRegular, async (req, res) => {
     try {
       const result = await db.query(
-        "SELECT username, name, level FROM user WHERE username = ?",
+        "SELECT username, name, level, email FROM user WHERE username = ?",
         req.user.username
       );
       res.send(result[0]);
@@ -52,12 +52,13 @@ module.exports = app => {
     const hash = await bcrypt.hash(req.body.password, 10);
     try {
       await db.query(
-        "INSERT INTO user (username, password, name, level) " +
-          "VALUES (?, ?, ?, ?)",
+        "INSERT INTO user (username, password, name, level, email) " +
+          "VALUES (?, ?, ?, ?, ?)",
         req.body.username,
         hash,
         req.body.name,
-        req.body.level || "DEFAULT"
+        req.body.level || "DEFAULT",
+        req.body.email
       );
       res.sendStatus(201);
     } catch (err) {
@@ -122,15 +123,16 @@ module.exports = app => {
     try {
       // Get user info from db first
       const userResult = await db.query(
-        "SELECT name, level FROM user WHERE username = ?",
+        "SELECT name, level, email FROM user WHERE username = ?",
         req.params.username
       );
 
       // Update info
       await db.query(
-        "UPDATE user SET name = ?, level = ? WHERE username = ?",
+        "UPDATE user SET name = ?, level = ?, email = ? WHERE username = ?",
         req.body.name ? req.body.name : userResult[0].name,
         req.body.level ? req.body.level : userResult[0].level,
+        req.body.email ? req.body.email : userResult[0].email,
         req.params.username
       );
       res.sendStatus(200);
@@ -172,14 +174,15 @@ module.exports = app => {
     try {
       // Get user info from db first
       const userResult = await db.query(
-        "SELECT name FROM user WHERE username = ?",
+        "SELECT name, email FROM user WHERE username = ?",
         req.user.username
       );
 
       // Update info
       await db.query(
-        "UPDATE user SET name = ? WHERE username = ?",
+        "UPDATE user SET name = ?, email = ? WHERE username = ?",
         req.body.name ? req.body.name : userResult[0].name,
+        req.body.email ? req.body.email : userResult[0].email,
         req.user.username
       );
       res.sendStatus(200);
