@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Button, Form, Input, Spin } from "antd";
-import { getUserMe, updateUserMe } from "../actions/userAction";
+import { Button, Form, Input, Spin, Row, Col, Divider } from "antd";
+import { getUserMe, updateUserMe } from "../../actions/userAction";
+import ChangePasswordForm from "./ChangePasswordForm";
 
 class Profile extends Component {
   componentDidMount() {
@@ -25,10 +26,10 @@ class Profile extends Component {
     const { username, name, email } = this.props.user.me;
     return (
       <Form
-        labelCol={{ span: 5 }}
-        wrapperCol={{ span: 12 }}
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
         onSubmit={this.onSave}
-        style={{ maxWidth: "500px" }}
+        style={{ maxWidth: "550px" }}
       >
         <Form.Item label="Username">
           {getFieldDecorator("username", {
@@ -46,7 +47,7 @@ class Profile extends Component {
             initialValue: email
           })(<Input type="email" />)}
         </Form.Item>
-        <Form.Item>
+        <Form.Item wrapperCol={{ span: 16, offset: 8, align: "left" }}>
           <Button type="primary" htmlType="submit">
             Save
           </Button>
@@ -56,7 +57,19 @@ class Profile extends Component {
   };
 
   render() {
-    return this.renderMeForm();
+    return (
+      <Row>
+        <Col span={11} align="middle">
+          <Divider>Basic information</Divider>
+          {this.renderMeForm()}
+        </Col>
+        <Col span={2} />
+        <Col span={11} align="middle">
+          <Divider>Password</Divider>
+          <ChangePasswordForm />
+        </Col>
+      </Row>
+    );
   }
 }
 

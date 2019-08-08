@@ -11,7 +11,9 @@ import {
   OPEN_USER_EDIT_FORM,
   CLOSE_USER_EDIT_FORM,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILURE
+  UPDATE_USER_FAILURE,
+  UPDATE_USER_ME_PASSWORD_SUCCESS,
+  UPDATE_USER_ME_PASSWORD_FAILURE
 } from "./types";
 
 export const getUserMe = () => async dispatch => {
@@ -21,14 +23,31 @@ export const getUserMe = () => async dispatch => {
 
 export const updateUserMe = ({ name, email }) => async dispatch => {
   try {
-    await axios.put(`/api/user/info`, { name, email });
-    const res = await axios.get(`/api/user`);
+    await axios.put("/api/user/info", { name, email });
+    const res = await axios.get("/api/user");
     dispatch({
       type: UPDATE_USER_ME_SUCCESS,
       me: res.data
     });
   } catch (err) {
     dispatch({ type: UPDATE_USER_ME_FAILURE, error: err.response.data.error });
+  }
+};
+
+export const updateUserMePassword = ({
+  currentPassword,
+  newPassword
+}) => async dispatch => {
+  try {
+    await axios.put("/api/user/password", { currentPassword, newPassword });
+    dispatch({
+      type: UPDATE_USER_ME_PASSWORD_SUCCESS
+    });
+  } catch (err) {
+    dispatch({
+      type: UPDATE_USER_ME_PASSWORD_FAILURE,
+      error: err.response.data.error
+    });
   }
 };
 
