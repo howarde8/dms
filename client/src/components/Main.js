@@ -3,6 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Spin } from "antd";
 import Header from "./Header";
+import Profile from "./Profile";
 import User from "./admin/User";
 import Level from "./admin/Level";
 import { fetchUser, logout } from "../actions/authAction";
@@ -41,10 +42,18 @@ class Main extends Component {
             <Header auth={this.props.auth} onLogoutClick={this.onLogoutClick} />
             <div style={{ margin: "20px" }}>
               <Route exact path="/" component={Home} />
-              <Route path="/user" component={User} />
-              <Route path="/level" component={Level} />
-              <Route path="/product" component={Product} />
-              <Route path="/order" component={Order} />
+              <Route path="/profile" component={Profile} />
+              {this.props.auth.user.level === "ADMIN" ? (
+                <div>
+                  <Route path="/user" component={User} />
+                  <Route path="/level" component={Level} />
+                </div>
+              ) : (
+                <div>
+                  <Route path="/product" component={Product} />
+                  <Route path="/order" component={Order} />
+                </div>
+              )}
             </div>
           </div>
         );

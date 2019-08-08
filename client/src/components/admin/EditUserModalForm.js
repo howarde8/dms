@@ -13,9 +13,7 @@ class EdituserModalForm extends Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        this.props.updateUser({
-          ...values
-        });
+        this.props.updateUser(values);
       }
     });
     this.props.closeEditForm();
@@ -35,7 +33,7 @@ class EdituserModalForm extends Component {
     }
 
     const { getFieldDecorator } = this.props.form;
-    const { username, name, level } = this.props.user.editingUser
+    const { username, name, level, email } = this.props.user.editingUser
       ? this.props.user.editingUser
       : {};
     return (
@@ -73,6 +71,11 @@ class EdituserModalForm extends Component {
                 ))}
               </Select>
             )}
+          </Form.Item>
+          <Form.Item label="Email">
+            {getFieldDecorator("email", {
+              initialValue: this.props.user.isEditing ? email : ""
+            })(<Input type="email" />)}
           </Form.Item>
         </Form>
       </Modal>
