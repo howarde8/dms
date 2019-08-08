@@ -34,9 +34,12 @@ export const updateUserMe = ({ name, email }) => async dispatch => {
   }
 };
 
-export const updateUserMePassword = password => async dispatch => {
+export const updateUserMePassword = ({
+  currentPassword,
+  newPassword
+}) => async dispatch => {
   try {
-    await axios.put("/api/user/password", { password });
+    await axios.put("/api/user/password", { currentPassword, newPassword });
     dispatch({
       type: UPDATE_USER_ME_PASSWORD_SUCCESS
     });

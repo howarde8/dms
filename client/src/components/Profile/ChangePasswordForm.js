@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Form, Input } from "antd";
+import { updateUserMePassword } from "../../actions/userAction";
 
 class ChangePasswordForm extends Component {
   onSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values);
+        this.props.updateUserMePassword(values);
       }
     });
   };
@@ -59,4 +60,11 @@ class ChangePasswordForm extends Component {
   }
 }
 
-export default Form.create()(ChangePasswordForm);
+const mapDispatchToProps = {
+  updateUserMePassword
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Form.create()(ChangePasswordForm));
