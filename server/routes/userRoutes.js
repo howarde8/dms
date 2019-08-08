@@ -151,12 +151,30 @@ module.exports = app => {
   });
 
   app.put("/api/user/password", requireRegular, async (req, res) => {
-    if (!req.body.password) {
-      res.status(400).send({ error: "Missing password" });
+    if (!req.body.currentPassword || !req.body.newPassword) {
+      res.status(400).send({ error: "Missing currentPassword or newPassword" });
       return;
     }
 
-    const hash = await bcrypt.hash(req.body.password, 10);
+    // Check if current password match correct password
+    try {
+      const correctPasswordHash = await db.query(
+        `SELECT password FROM user WHERE username = '${req.user.username}'`
+      );
+      const match = await bcrypt.compare(
+        req.body.currentPassword,
+        correctPasswordHash[0].password
+      );
+      if (!match) {
+        res.status(400).send({ error: "Current password incorrect" });
+        return;
+      }
+    } catch (err) {
+      res.status(500).send({ error: err });
+      return;
+    }
+
+    const hash = await bcrypt.hash(req.body.newPassword, 10);
     try {
       await db.query(
         "UPDATE user SET password = ? WHERE username = ?",
