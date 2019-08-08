@@ -10,7 +10,9 @@ import {
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
   UPDATE_USER_ME_SUCCESS,
-  UPDATE_USER_ME_FAILURE
+  UPDATE_USER_ME_FAILURE,
+  UPDATE_USER_ME_PASSWORD_SUCCESS,
+  UPDATE_USER_ME_PASSWORD_FAILURE
 } from "../actions/types";
 import { message } from "antd";
 
@@ -30,6 +32,12 @@ export default function(state = initialState, action) {
       message.success("Update profile successful");
       return { ...state, me: action.me };
     case UPDATE_USER_ME_FAILURE:
+      message.error(action.error);
+      return state;
+    case UPDATE_USER_ME_PASSWORD_SUCCESS:
+      message.success("Update password successful");
+      return state;
+    case UPDATE_USER_ME_PASSWORD_FAILURE:
       message.error(action.error);
       return state;
     case GET_ALL_USERS:
