@@ -81,6 +81,9 @@ setInterval(() => {
       .catch(err => {
         logger.error(`[DB] Connecting mysql fail, retry...: ${err}`);
       });
+    db.connection.on("error", err => {
+      logger.error(`[DB] On error: ${err}`);
+    })
   }
 }, 3000);
 
